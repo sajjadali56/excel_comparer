@@ -1,10 +1,13 @@
 import pandas as pd
 
 def compare_excel_stats(file1, file2):
+    print("Comparing files:", file1, file2)
     xl1 = pd.ExcelFile(file1)
     xl2 = pd.ExcelFile(file2)
 
     common_sheets = sorted(set(xl1.sheet_names).intersection(xl2.sheet_names))
+    print("Common sheets:", common_sheets)
+
     force_object_cols = {"UW_Year", "Loss_Period"}
 
     result = []
@@ -15,6 +18,7 @@ def compare_excel_stats(file1, file2):
         df1 = xl1.parse(sheet)
         df2 = xl2.parse(sheet)
         common_cols = list(df1.columns.intersection(df2.columns))
+        print(f"Sheet '{sheet}' - common columns:", common_cols)
         if not common_cols:
             result.append({"sheet": sheet, "message": "⚠️ No common columns found."})
             continue
