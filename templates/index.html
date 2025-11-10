@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Excel Comparison Tool</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://kit.fontawesome.com/a2d2d9a4c1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-chart-bar"></i> Excel Comparison Tool</h1>
+    <p class="subtitle">Easily compare multiple Actual vs Expected Excel files and visualize differences in style.</p>
+
+    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+      <div id="filePairs">
+        <div class="pair card">
+          <div class="pair-header">
+            <h3><i class="fas fa-file-excel"></i> File Pair 1</h3>
+          </div>
+          <div class="pair-body">
+            <div class="input-group">
+              <label><i class="fas fa-upload"></i> Actual File:</label>
+              <input type="file" name="actual_0" required>
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-upload"></i> Expected File:</label>
+              <input type="file" name="expected_0" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+          <button type="button" id="addMore" class="secondary-btn"><i class="fas fa-plus-circle"></i> Add</button>
+          <button type="submit" class="primary-btn"><i class="fas fa-check-circle"></i> Compare</button>
+          <button type="button" id="remove" class="secondary-btn"><i class="fas fa-minus-circle"></i> Remove</button>
+      </div>
+    </form>
+
+    {% if results %}
+    <h2>Comparison Results</h2>
+    <div class="results">
+      {% for r in results %}
+        <div class="result-card">
+          <div class="result-header">
+            <i class="fas fa-file-contract"></i> {{ r.pair }}
+          </div>
+          <div class="result-body">
+            {% for sheet in r.results %}
+              <details>
+                <summary>📄 {{ sheet.sheet or 'No Sheet Found' }}</summary>
+                <pre>{{ sheet.message }}</pre>
+              </details>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    let pairCount = 1;
+    document.getElementById('addMore').addEventListener('click', () => {
+      const div = document.createElement('div');
+      div.classList.add('pair', 'card');
+      div.innerHTML = `
+        <div class="pair-header">
+          <h3><i class="fas fa-file-excel"></i> File Pair ${pairCount + 1}</h3>
+        </div>
+        <div class="pair-body">
+          <div class="input-group">
+            <label><i class="fas fa-upload"></i> Actual File:</label>
+            <input type="file" name="actual_${pairCount}" required>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-upload"></i> Expected File:</label>
+            <input type="file" name="expected_${pairCount}" required>
+          </div>
+        </div>`;
+      document.getElementById('filePairs').appendChild(div);
+      pairCount++;
+    });
+
+    document.getElementById('remove').addEventListener('click', () => {
+       if (pairCount > 1) {
+         pairCount--;
+         const filePairs = document.getElementsByClassName('pair card')[0].parentNode;
+         filePairs.removeChild(filePairs.lastElementChild);
+       } 
+    });
+  </script>
+</body>
+</html>
