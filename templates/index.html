@@ -10,58 +10,39 @@
       rel="stylesheet"
     />
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       rel="stylesheet"
     />
 
     <link
-      href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
     />
-  </head>
+
+</head>
 
   <body>
-    <div class="container py-5">
-      <!-- Header -->
-      <div class="text-center app-header mb-5">
-        <img
-          src="{{ url_for('static', filename='images/login-banner.png') }}"
-          alt="Excel Comparison"
-          class="img-fluid"
-        />
-        <h1 class="fw-bold">
-          <i class="fas fa-file-excel me-2"></i>Excel Comparison Tool
-        </h1>
-        <!-- <p class="lead mb-0">
-          Easily compare Actual vs Expected Excel files across multiple sheets.
-        </p> -->
-        <p class="text-white-50 fs-5 mt-2">
-          This tool automatically compares two Excel workbooks — “Actual” and
-          “Expected” — across all common sheets. It checks both text and numeric
-          columns, highlights statistical differences, and generates a clean,
-          downloadable report for each pair.
-        </p>
-        <hr
-          class="border-light opacity-25"
-          style="width: 60%; margin: 1.5rem auto"
-        />
-        <p class="text-light small mb-0">
-          Designed for financial model validation, data audits, and
-          reconciliation workflows.
-        </p>
-      </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div>
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='images/desktop-app-logo.png') }}"
+            alt="Logo"
+          />
+          <h3>Excel Comparison</h3>
+        </div>
 
-      <!-- Upload Form -->
-      <form
-        method="POST"
-        enctype="multipart/form-data"
-        id="uploadForm"
-        class="mb-5"
-      >
-        <div id="filePairs" class="d-flex flex-column gap-3">
-          <div class="card pair-card shadow-sm p-3">
-            <div class="row align-items-center">
-              <div class="col-md-5 mb-3 mb-md-0">
+        <!-- Upload Form -->
+        <form
+          method="POST"
+          enctype="multipart/form-data"
+          id="uploadForm"
+          class="mt-4"
+        >
+          <div id="filePairs">
+            <div class="card pair-card shadow-sm p-3">
+              <div class="mb-3">
                 <label class="form-label fw-semibold text-secondary"
                   >Actual File:</label
                 >
@@ -72,7 +53,7 @@
                   required
                 />
               </div>
-              <div class="col-md-5 mb-3 mb-md-0">
+              <div class="mb-3">
                 <label class="form-label fw-semibold text-secondary"
                   >Expected File:</label
                 >
@@ -83,10 +64,10 @@
                   required
                 />
               </div>
-              <div class="col-md-2 text-center">
+              <div class="text-end">
                 <button
                   type="button"
-                  class="btn btn-danger remove-btn w-100"
+                  class="btn btn-danger btn-sm remove-btn"
                   disabled
                 >
                   <i class="fas fa-trash-alt"></i>
@@ -94,32 +75,54 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="text-center mt-4">
-          <button
-            type="button"
-            id="addRow"
-            class="btn btn-outline-primary me-2 px-4"
-          >
-            <i class="fas fa-plus-circle"></i> Add Pair
-          </button>
-          <button type="submit" class="btn btn-success px-4">
-            <i class="fas fa-check-circle"></i> Compare
-          </button>
-        </div>
-      </form>
+          <div class="text-center mt-3">
+            <button
+              type="button"
+              id="addRow"
+              class="btn btn-outline-primary btn-sm me-2"
+            >
+              <i class="fas fa-plus-circle"></i> Add Pair
+            </button>
+            <button type="submit" class="btn btn-success btn-sm">
+              <i class="fas fa-check-circle"></i> Compare
+            </button>
+          </div>
+        </form>
+      </div>
 
-      <!-- Results Section -->
+      <footer>
+        © {{ current_year }} — <strong>Sajjad Ali</strong><br />
+        Flask + Bootstrap 5
+      </footer>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Header -->
+      <div class="app-header text-center mb-4">
+        <img
+          src="{{ url_for('static', filename='images/login-banner.png') }}"
+          alt="Excel Comparison Banner"
+        />
+        <h1><i class="fas fa-file-excel me-2"></i>Excel Comparison Tool</h1>
+        <p class="text-white-50 fs-5 mt-3">
+          Compare two Excel files — “Actual” and “Expected” — across all common
+          sheets. Detect column mismatches, statistical differences, and quickly
+          generate detailed reports.
+        </p>
+      </div>
+
+      <!-- Results -->
       {% if results %}
-      <div class="mt-5">
-        <h3 class="text-primary mb-3">
+      <div class="results-section mt-4">
+        <h3 class="text-info mb-3">
           <i class="fas fa-chart-bar me-2"></i>Comparison Results
         </h3>
         {% for r in results %}
-        <div class="card shadow-sm mb-4 results-card">
+        <div class="card results-card p-3">
           <div
-            class="card-header bg-white d-flex justify-content-between align-items-center fw-semibold text-primary"
+            class="d-flex justify-content-between align-items-center mb-2 text-info fw-semibold"
           >
             <span><i class="fas fa-file-contract me-2"></i>{{ r.pair }}</span>
             <a
@@ -129,37 +132,26 @@
               <i class="fas fa-download"></i> Download
             </a>
           </div>
-          <div class="card-body">
-            {% for sheet in r.results %}
-            <details class="mb-3">
-              <summary>{{ sheet.sheet or 'Unnamed Sheet' }}</summary>
-              <pre class="mt-2">{{ sheet.message }}</pre>
-            </details>
-            {% endfor %}
-          </div>
+
+          {% for sheet in r.results %}
+          <details class="mb-3">
+            <summary>{{ sheet.sheet or 'Unnamed Sheet' }}</summary>
+            <pre class="mt-2">{{ sheet.message }}</pre>
+          </details>
+          {% endfor %}
         </div>
         {% endfor %}
       </div>
       {% else %}
-      <div class="no-results text-center text-muted">
+      <div class="text-center text-muted mt-5">
         <i class="fas fa-info-circle fa-2x mb-3"></i>
-        <p class="mb-0">
-          No comparison results yet. Upload files and click
-          <strong>Compare</strong> to begin.
-        </p>
+        <p>No results yet — upload files and click <strong>Compare</strong>.</p>
       </div>
       {% endif %}
-
-      <footer>
-        <p>
-          © {{ current_year }} Excel Comparison Tool — Built with ❤️ using Flask
-          & Bootstrap 5 By Sajjad Ali
-        </p>
-      </footer>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"></script>
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
       let pairCount = 1;
       document.getElementById("addRow").addEventListener("click", () => {
@@ -167,21 +159,19 @@
         const div = document.createElement("div");
         div.classList.add("card", "pair-card", "shadow-sm", "p-3");
         div.innerHTML = `
-        <div class="row align-items-center">
-          <div class="col-md-5 mb-3 mb-md-0">
+          <div class="mb-3">
             <label class="form-label fw-semibold text-secondary">Actual File:</label>
             <input type="file" name="actual_${pairCount}" class="form-control" required>
           </div>
-          <div class="col-md-5 mb-3 mb-md-0">
+          <div class="mb-3">
             <label class="form-label fw-semibold text-secondary">Expected File:</label>
             <input type="file" name="expected_${pairCount}" class="form-control" required>
           </div>
-          <div class="col-md-2 text-center">
-            <button type="button" class="btn btn-danger remove-btn w-100">
+          <div class="text-end">
+            <button type="button" class="btn btn-danger btn-sm remove-btn">
               <i class="fas fa-trash-alt"></i>
             </button>
-          </div>
-        </div>`;
+          </div>`;
         container.appendChild(div);
         pairCount++;
         updateRemoveButtons();
