@@ -29,7 +29,8 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 320px;
+  /* width: 320px; */
+  width: 30%;
   background: var(--bg-darker);
   border-right: 1px solid var(--border-color);
   padding: 2rem 1.5rem;
@@ -41,7 +42,7 @@ body {
 
 .main-content {
   flex: 1;
-  margin-left: 320px;
+  margin-left: 35%;
   padding: 2rem;
 }
 

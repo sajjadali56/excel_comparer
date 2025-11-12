@@ -329,9 +329,7 @@ function renderColumnDetails(column) {
               .map(
                 ([stat, values]) => `
                 <div class="col-md-6">
-                    <small><strong>${stat.toUpperCase()}:</strong> ${values.file1.toFixed(
-                  4
-                )}</small>
+                    <small><strong>${stat.toUpperCase()}:</strong> ${values.file1}</small>
                 </div>
             `
               )

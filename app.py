@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template, request, send_from_directory, jsonify
 import os
 
+from app.formatter import format_comparison_results
 from app.services.compare_logic import *
 from app.services.pdf import generate_pdf_report
 
@@ -69,7 +70,7 @@ def process():
                 "json_report_file": json_report_filename,
                 "pdf_report_file": pdf_report_filename if pdf_success else None,
                 "pair": f"{actual_file.filename} vs {expected_file.filename}",
-                "results": comparison_results,
+                "results": format_comparison_results(comparison_results),
                 "has_pdf": pdf_success
             }
             

@@ -3,30 +3,27 @@ import numpy as np
 import os
 from datetime import datetime
 import traceback
-import traceback
 import logging
 from io import BytesIO
 import time
 
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-REPORT_FOLDER = os.path.join(BASE_DIR, "reports")
-os.makedirs(REPORT_FOLDER, exist_ok=True)
+BASE_DIR = os.path.join(BASE_DIR, "..", "..")
 
-ALLOWED_EXT = {".xls", ".xlsx"}
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+os.makedirs(LOGS_DIR, exist_ok=True)
 
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(os.path.join(BASE_DIR, 'comparison.log')),
+        logging.FileHandler(os.path.join(LOGS_DIR, 'comparison.log')),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 REPORT_FOLDER = os.path.join(BASE_DIR, "reports")
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
