@@ -8,7 +8,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 40%;
+  width: 35%;
   background-color: rgba(10, 25, 47, 0.95);
   padding: 2rem 1.5rem;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
@@ -96,6 +96,17 @@ body {
   border-radius: 10px;
   border: none;
   margin-bottom: 1rem;
+}
+
+.description-box {
+  max-width: 700px;
+  margin: 1.5rem auto;
+  transition: all 0.3s ease;
+}
+
+.description-box:hover {
+  background-color: #212529; /* Slightly lighter than bg-dark */
+  transform: translateY(-2px);
 }
 
 summary {
