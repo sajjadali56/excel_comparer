@@ -43,6 +43,11 @@ body {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 1rem;
+  font-size: small;
+}
+
+.pair-card input{
+  font-size: small;
 }
 
 .pair-card:hover {
@@ -89,7 +94,7 @@ body {
 }
 
 .app-header img {
-  width: 70%;
+  width: 100%;
   border-radius: 12px;
   margin-bottom: 1.5rem;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
