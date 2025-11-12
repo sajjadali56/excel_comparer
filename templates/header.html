@@ -1,32 +1,43 @@
-<div class="app-header text-center mb-4">
-  <img
-    src="{{ url_for('static', filename='images/login-banner.png') }}"
-    alt="Excel Comparison Banner"
-  />
-  <h1><i class="fas fa-file-excel me-2"></i>Excel Comparison Tool</h1>
-  <hr class="border-light opacity-25" style="width: 60%; margin: 1.5rem auto" />
-
-  <p class="text-light small mb-0">
-    Designed for financial model validation, data audits, and reconciliation
-    workflows.
-  </p>
-  <hr class="border-light opacity-25" style="width: 60%; margin: 1.5rem auto" />
-
-  <div
-    class="description-box text-light rounded-3 p-2 shadow-sm mx-auto"
-    style="max-width: 700px"
-    onclick="toggleDescription()"
-  >
-    <p id="toolDesc" class="mb-0 text-white-50 fs-5 d-inline">
-      This tool automatically compares two Excel workbooks
-      <button
-        class="btn btn-link text-white-50 p-0 ms-1 align-baseline"
-        onclick=""
-        title="Show more details"
-        style="text-decoration: none"
-      >
-        <i class="fas fa-chevron-down"></i>
-      </button>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h1 mb-1 brand-text">Excel Comparison Dashboard</h1>
+    <p class="text-light mt-2 mb-0">
+      Compare, analyze, and visualize your Excel data differences
     </p>
+  </div>
+  <div class="d-flex align-items-center">
+    <!-- <div class="me-3">
+      <small class="text-light mt-1">Last comparison</small>
+      <div class="text-primary badge m-2 p-2 bg-warning">Just now</div>
+    </div> -->
+
+    <!-- <div class="dropdown">
+      <button
+        class="btn btn-outline-primary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+      >
+        <i class="fas fa-user me-2"></i>Admin
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li>
+          <a class="dropdown-item" href="#"
+            ><i class="fas fa-user me-2"></i>Profile</a
+          >
+        </li>
+        <li>
+          <a class="dropdown-item" href="#"
+            ><i class="fas fa-cog me-2"></i>Settings</a
+          >
+        </li>
+        <li><hr class="dropdown-divider" /></li>
+        <li>
+          <a class="dropdown-item" href="#"
+            ><i class="fas fa-sign-out-alt me-2"></i>Logout</a
+          >
+        </li>
+      </ul>
+    </div> -->
+
   </div>
 </div>

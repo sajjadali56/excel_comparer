@@ -1,0 +1,47 @@
+<div class="banner">
+  <div class="banner-content">
+    <h2 class="text-white mb-3">Advanced Excel Comparison</h2>
+    <p class="text-white-50 mb-4">
+      Upload your Excel files to compare data across sheets, columns, and
+      values. Get detailed insights with beautiful visualizations and
+      downloadable reports.
+    </p>
+    <div id="banner-checks" class="d-flex gap-2 flex-wrap"></div>
+  </div>
+</div>
+
+<!-- <div class="card glass-card p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="text-primary mb-0">
+      <i class="fas fa-info-circle me-2"></i>How It Works
+    </h5>
+    <button
+      class="btn btn-sm btn-outline-primary"
+      onclick="toggleDescription()"
+    >
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+  <div id="toolDesc" class="mt-3 text-light mt-1">
+    Upload your "Actual" and "Expected" Excel files. The tool automatically
+    compares all common sheets, analyzes both text and numeric columns, and
+    highlights differences with detailed statistical insights.
+  </div>
+</div> -->
+
+<script>
+  const badges = [
+    "Multi-sheet Support",
+    "Statistical Analysis",
+    "Visual Reports",
+    "Export Results",
+  ];
+
+  const bannerChecks = document.getElementById("banner-checks");
+  badges.forEach((badge) => {
+    const span = document.createElement("span");
+    span.classList.add("badge", "bg-white", "text-dark");
+    span.innerHTML = `<i class="fas fa-check me-1"></i>${badge}`;
+    bannerChecks.appendChild(span);
+  });
+</script>

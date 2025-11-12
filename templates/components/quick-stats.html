@@ -1,0 +1,56 @@
+<div class="nav-section">
+  <div class="nav-title">Quick Stats</div>
+  <div id="quick-stats" class="text-center">
+    <!-- <div class="stat-card mb-2">
+      <i class="fas fa-bolt fa-2x mb-2"></i>
+      <h4 class="mb-1">Fast</h4>
+      <small>Real-time Comparison</small>
+    </div>
+    <div class="stat-card success mb-2">
+      <i class="fas fa-shield-alt fa-2x mb-2"></i>
+      <h4 class="mb-1">Secure</h4>
+      <small>Local Processing</small>
+    </div>
+    <div class="stat-card warning">
+      <i class="fas fa-chart-line fa-2x mb-2"></i>
+      <h4 class="mb-1">Accurate</h4>
+      <small>Detailed Analytics</small>
+    </div> -->
+  </div>
+</div>
+
+<script>
+  const stats = [
+    {
+      icon: "fas fa-bolt fa-2x mb-2",
+      color: "",
+      title: "Fast",
+      subtitle: "Real-time Comparison",
+    },
+    {
+      icon: "fas fa-shield-alt fa-2x mb-2",
+      color: "success",
+      title: "Secure",
+      subtitle: "Local Processing",
+    },
+    {
+      icon: "fas fa-chart-line fa-2x mb-2",
+      color: "warning",
+      title: "Accurate",
+      subtitle: "Detailed Analytics",
+    },
+  ];
+
+  const statContainer = document.getElementById("quick-stats");
+
+  stats.forEach((stat) => {
+    const statCard = document.createElement("div");
+    statCard.classList.add("stat-card", "mb-2", stat.color || "default");
+    statCard.innerHTML = `
+            <i class="${stat.icon}"></i>
+            <h4 class="mb-1">${stat.title}</h4>
+            <small>${stat.subtitle}</small>
+        `;
+    statContainer.appendChild(statCard);
+  });
+</script>

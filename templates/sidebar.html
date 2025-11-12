@@ -1,46 +1,20 @@
 <div class="sidebar">
-  <div>
-    <div class="logo">
-      <img
-        src="{{ url_for('static', filename='images/desktop-app-logo.png') }}"
-        alt="Logo"
-      />
-      <h3>Excel Comparison</h3>
+  <div class="logo">
+    <div class="logo-img">
+        <img
+          class="img-fluid w-100 h-100 glass-card"
+          src="{{ url_for('static', filename='images/logo.jpg') }}"
+          alt="Excel Comparison Banner"
+        />
     </div>
-
-    <form
-      enctype="multipart/form-data"
-      method="post"
-      action="/process"
-      id="uploadForm"
-      class="mt-4"
-    >
-      <div id="filePairs">
-            {% set count = 0 %}
-            {% include "components/upload-pair.html" %}
-      </div>
-
-      <div class="text-center mt-3">
-        <button
-          type="button"
-          id="addRow"
-          class="btn btn-outline-primary btn-sm me-2"
-        >
-          <i class="fas fa-plus-circle"></i> Add Pair
-        </button>
-        <button
-          type="submit"
-          class="btn btn-success btn-sm"
-          onclick="handleSubmit(event)"
-        >
-          <i class="fas fa-check-circle"></i> Compare
-        </button>
-      </div>
-    </form>
+    <div class="brand-text">ExcelCompare Pro</div>
+    <small class="text-light mt-1">Enterprise Data Comparison</small>
   </div>
 
-  <footer>
-    © {{ current_year }} — <strong>Sajjad Ali</strong><br />
-    Flask + Bootstrap 5
-  </footer>
+  <!-- {% include 'components/navbar.html' %} -->
+
+  {% include 'file-manager.html' %}
+
+  {% include 'components/quick-stats.html' %}
+
 </div>
