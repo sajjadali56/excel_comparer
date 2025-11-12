@@ -26,7 +26,7 @@ body {
 }
 
 .sidebar .logo img {
-  max-width: 120px;
+  max-width: 60px;
   border-radius: 10px;
   margin-bottom: 0.75rem;
 }
@@ -46,6 +46,16 @@ body {
 }
 
 .pair-card:hover {
+  transform: translateY(-2px);
+  transition: 0.2s;
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.15);
+}
+
+.pair-card-close {
+  border-radius: 50%;
+}
+
+.pair-card-close:hover {
   transform: translateY(-2px);
   transition: 0.2s;
   box-shadow: 0 0 10px rgba(100, 255, 218, 0.15);

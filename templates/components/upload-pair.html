@@ -1,0 +1,17 @@
+<div class="card pair-card shadow-sm p-3">
+  <div class="text-end">
+    <button type="button" class="btn btn-danger btn-sm remove-btn pair-card-close" disabled>
+      <i class="fas fa-close" color="#fff"></i>
+    </button>
+  </div>
+
+  {% set pairCount = "actual_" ~ count %} 
+  {% set label="Actual File" %} 
+  {% include "components/upload-file.html" %} 
+  
+  {% set pairCount = "expected_" ~ count %} 
+  {% set label="Expected File" %} 
+  {% include "components/upload-file.html" %}
+
+</div>
+

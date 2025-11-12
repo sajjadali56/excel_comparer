@@ -26,6 +26,7 @@ def process():
 
     # Determine indices dynamically from request.files keys (handles gaps or variable counts)
     indices = set()
+    print(request.files.keys())
     for key in request.files.keys():
         if key.startswith("actual_") or key.startswith("expected_"):
             try:

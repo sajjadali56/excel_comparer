@@ -1,0 +1,68 @@
+<div class="sidebar">
+  <div>
+    <div class="logo">
+      <img
+        src="{{ url_for('static', filename='images/desktop-app-logo.png') }}"
+        alt="Logo"
+      />
+      <h3>Excel Comparison</h3>
+    </div>
+
+    <!-- Upload Form -->
+    <!-- method="POST" -->
+    <form
+      enctype="multipart/form-data"
+      method="post"
+      action="/process"
+      id="uploadForm"
+      class="mt-4"
+    >
+      <div id="filePairs">
+            {% set count = 0 %}
+            {% include "components/upload-pair.html" %}
+
+        <!-- <div class="card pair-card shadow-sm p-3">
+            {% set pairCount = "actual_0" %}
+            {% set label="Actual File" %}
+            {% include "components/upload-file.html" %}
+
+            {% set pairCount = "expected_0" %}
+            {% set label="Actual File" %}
+            {% include "components/upload-file.html" %}
+
+          <div class="text-end">
+            <button
+              type="button"
+              class="btn btn-danger btn-sm remove-btn"
+              disabled
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div> -->
+      </div>
+
+      <div class="text-center mt-3">
+        <button
+          type="button"
+          id="addRow"
+          class="btn btn-outline-primary btn-sm me-2"
+        >
+          <i class="fas fa-plus-circle"></i> Add Pair
+        </button>
+        <button
+          type="submit"
+          class="btn btn-success btn-sm"
+          onclick="handleSubmit(event)"
+        >
+          <i class="fas fa-check-circle"></i> Compare
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    © {{ current_year }} — <strong>Sajjad Ali</strong><br />
+    Flask + Bootstrap 5
+  </footer>
+</div>

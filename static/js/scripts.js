@@ -5,19 +5,20 @@ document.getElementById("addRow").addEventListener("click", () => {
   const div = document.createElement("div");
   div.classList.add("card", "pair-card", "shadow-sm", "p-3");
   div.innerHTML = `
-          <div class="mb-3">
-            <label class="form-label fw-semibold text-secondary">Actual File:</label>
-            <input type="file" name="actual_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-semibold text-secondary">Expected File:</label>
-            <input type="file" name="expected_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
-          </div>
-          <div class="text-end">
-            <button type="button" class="btn btn-danger btn-sm remove-btn">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>`;
+  <div class="text-end">
+    <button type="button" class="btn btn-danger btn-sm remove-btn pair-card-close">
+      <i class="fas fa-close"></i>
+    </button>
+  </div>
+    <div class="mb-3">
+      <label class="form-label fw-semibold text-secondary">Actual File:</label>
+      <input type="file" name="actual_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-semibold text-secondary">Expected File:</label>
+      <input type="file" name="expected_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
+    </div>
+  `;
   container.appendChild(div);
   pairCount++;
   updateRemoveButtons();
