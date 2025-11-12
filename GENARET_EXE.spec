@@ -5,6 +5,7 @@ from PyInstaller.utils.hooks import collect_submodules, collect_dynamic_libs, co
 
 # Add template and static folders
 datas = [
+    ("app", "app"),
     ('templates', 'templates'),
     ('static', 'static'),
     ("compare_logic.py", ".")

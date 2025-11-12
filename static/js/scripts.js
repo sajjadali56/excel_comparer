@@ -293,13 +293,16 @@ function displayResults(data) {
               </div>
 
               <!-- Download Button -->
-              <div class="text-center mt-4">
-                  <a href="/download/reports/${
-                    pair.report_file
-                  }" class="btn btn-primary btn-lg">
-                      <i class="fas fa-download me-2"></i>Download Detailed Report
+                <div class="text-center mt-4">
+                  <a href="/download/reports/${pair.report_file}" class="btn btn-primary btn-lg me-2">
+                      <i class="fas fa-download me-2"></i>Download PDF Report
                   </a>
-              </div>
+                  ${pair.has_pdf ? `
+                  <a href="/download/reports/${pair.json_report_file}" class="btn btn-outline-primary btn-lg">
+                      <i class="fas fa-code me-2"></i>Download JSON Data
+                  </a>
+                  ` : ''}
+                </div>
           </div>
       </div>
   `;
