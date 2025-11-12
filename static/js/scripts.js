@@ -10,14 +10,16 @@ document.getElementById("addRow").addEventListener("click", () => {
       <i class="fas fa-close"></i>
     </button>
   </div>
-    <div class="mb-3">
-      <label class="form-label fw-semibold text-secondary">Actual File:</label>
-      <input type="file" name="actual_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-semibold text-secondary">Expected File:</label>
-      <input type="file" name="expected_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
-    </div>
+  <div class="mb-3">
+    <label class="form-label fw-semibold text-secondary">Actual File:</label>
+    <input type="file" name="actual_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label fw-semibold text-secondary">Expected File:</label>
+    <input type="file" name="expected_${pairCount}" class="form-control" accept=".xlsx, .xls" required>
+  </div>
+  <div id="error-${pairCount}" class="text-center badge bg-danger m-3 p-2" style="display: none">
+  </div>
   `;
   container.appendChild(div);
   pairCount++;
@@ -43,11 +45,35 @@ const handleSubmit = async (event) => {
   
   loader.style.display = "block";
   resultsSection.style.display = "none";
- 
+
+  const body = new FormData(form);
+
+  const values = {};
+
+  body.forEach((value, key) => {
+    values[key] = value;
+  })
+  const keys = Object.keys(values);
+  console.log("Form data", values, keys);
+
+  for(let i=0; i<keys.length/2; i++){
+    const actualFile = values[`actual_${i}`];
+    const expectedFile = values[`expected_${i}`];
+    
+    console.log(actualFile, expectedFile);
+    if((!actualFile || !expectedFile) || (actualFile.size === 0 || expectedFile.size === 0)){
+      const errorDiv = document.getElementById(`error-${i}`);
+      errorDiv.innerHTML = "Please select both files";
+      errorDiv.style.display = "block";
+      loader.style.display = "none";
+      resultsSection.style.display = "block";
+      return
+    }
+  }
   
   const response = await fetch("/process", {
     method: "POST",
-    body: new FormData(form)
+    body: body
   });
 
   const data = await response.json();
@@ -55,6 +81,13 @@ const handleSubmit = async (event) => {
   console.log("Response received", data);
 
   const header = `<h3 class="text-info mb-3"> <i class="fas fa-chart-bar me-2"></i>Comparison Results</h3>`
+
+  if(data.error){
+    resultsSection.innerHTML = `<div class="alert alert-danger" role="alert">${data.error}</div>`
+    loader.style.display = "none";
+    resultsSection.style.display = "block";
+    return
+  }
 
   let resultCards = ""
   for (let i = 0; i < data.length; i++) {

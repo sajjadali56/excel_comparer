@@ -10,7 +10,7 @@ REPORT_FOLDER = os.path.join(BASE_DIR, "reports")
 
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
-ALLOWED_EXT = {".xls", ".xlsx", ".csv"}
+ALLOWED_EXT = {".xls", ".xlsx"}
 
 def allowed_filename(filename):
     _, ext = os.path.splitext(filename.lower())
@@ -36,56 +36,58 @@ def process():
                 pass
     indices = sorted(indices)
 
-    for i in indices:
-        actual_file = request.files.get(f"actual_{i}")
-        expected_file = request.files.get(f"expected_{i}")
+    try:
 
-        if not actual_file or not expected_file:
-            # skip incomplete pair
-            continue
 
-        # basic allowed check
-        if not allowed_filename(actual_file.filename) or not allowed_filename(expected_file.filename):
-            # skip or handle error; here we'll skip this pair
-            continue
+        for i in indices:
+            actual_file = request.files.get(f"actual_{i}")
+            expected_file = request.files.get(f"expected_{i}")
 
-        # Create unique filenames to avoid collisions
-        actual_orig = actual_file.filename.split('.')[0]
-        expected_orig = expected_file.filename.split('.')[0]
+            if not actual_file or not expected_file:
+                # skip incomplete pair
+                continue
 
-        # Run comparison and save human-readable report
-        # report_contents = compare_excel_stats(actual_path, expected_path)
-        report_contents = compare_excel_stats(actual_file, expected_file)
+            # basic allowed check
+            if not allowed_filename(actual_file.filename) or not allowed_filename(expected_file.filename):
+                # skip or handle error; here we'll skip this pair
+                continue
 
-        # Create a plain text report file summarizing results
-        report_filename = f"report_{actual_file.filename.split('.')[0]} VS {expected_file.filename.split('.')[0]}.txt"
-        report_path = os.path.join(REPORT_FOLDER, report_filename)
+            
 
-        # If compare_excel_stats returns the same text structure you had earlier, convert to text:
-        with open(report_path, "w", encoding="utf-8") as rf:
-            rf.write(f"Comparison: {actual_orig}  VS  {expected_orig}\n\n")
-            if not report_contents:
-                rf.write("No output from compare function.\n")
-            else:
-                # report_contents might be a list of dicts with 'sheet' and 'message'
-                for entry in report_contents:
-                    sheet = entry.get("sheet", "Sheet")
-                    msg = entry.get("message", "")
-                    rf.write(f"--- {sheet} ---\n")
-                    rf.write(msg + "\n\n")
+            # Create unique filenames to avoid collisions
+            actual_orig, _ = os.path.splitext(actual_file.filename.lower())
+            expected_orig, _ = os.path.splitext(expected_file.filename.lower())
 
-        uploaded_pairs.append({
-            "report_file": report_filename,
-            "pair": f"{actual_orig} vs {expected_orig}",
-            "results": report_contents
+            # Run comparison and save human-readable report
+            report_contents = compare_excel_stats(actual_file, expected_file)
 
-        })
+            # Create a plain text report file summarizing results
+            report_filename = f"report_{actual_file.filename.split('.')[0]} VS {expected_file.filename.split('.')[0]}.txt"
+            report_path = os.path.join(REPORT_FOLDER, report_filename)
 
-    # return render_template("index.html", results=uploaded_pairs)
-    return jsonify(uploaded_pairs)
-    # return {
-    #     "results": uploaded_pairs
-    # }
+            # If compare_excel_stats returns the same text structure you had earlier, convert to text:
+            with open(report_path, "w", encoding="utf-8") as rf:
+                rf.write(f"Comparison: {actual_orig}  VS  {expected_orig}\n\n")
+                if not report_contents:
+                    rf.write("No output from compare function.\n")
+                else:
+                    # report_contents might be a list of dicts with 'sheet' and 'message'
+                    for entry in report_contents:
+                        sheet = entry.get("sheet", "Sheet")
+                        msg = entry.get("message", "")
+                        rf.write(f"--- {sheet} ---\n")
+                        rf.write(msg + "\n\n")
+
+            uploaded_pairs.append({
+                "report_file": report_filename,
+                "pair": f"{actual_orig} vs {expected_orig}",
+                "results": report_contents
+
+            })
+
+        return jsonify(uploaded_pairs)
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/download/<folder>/<filename>")
 def download_file(folder, filename):
