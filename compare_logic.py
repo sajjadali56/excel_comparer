@@ -59,13 +59,21 @@ def compare_excel_stats(file1, file2):
                     "mean": (col1.mean(), col2.mean()),
                     "min": (col1.min(), col2.min()),
                     "max": (col1.max(), col2.max()),
+                }    
+            
+                differences = {
+                    # stat: (round(v1, 4), round(v2, 4)) 
+                    # for stat, (v1, v2) in summary.items()
+                    # if stat in (["mean", "sum"] and round(v1, 4) != round(v2, 4))
                 }
 
-                differences = {
-                    stat: (round(v1, 4), round(v2, 4))
-                    for stat, (v1, v2) in summary.items()
-                    if round(v1, 4) != round(v2, 4)
-                }
+                for stat, (v1, v2) in summary.items():
+                    if stat in ["mean", "sum"] and round(v1, 4) != round(v2, 4):
+                        differences[stat] = (round(v1, 4), round(v2, 4))
+                    elif stat in ["min", "max"] and v1 != v2:
+                        differences[stat] = (v1, v2) if type(v1) not in [int, float] or type(v2) not in [int, float] else (round(v1, 4), round(v2, 4))
+
+
 
                 if differences:
                     for stat, (v1, v2) in differences.items():
