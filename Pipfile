@@ -8,6 +8,8 @@ flask = "*"
 pandas = "*"
 numpy = "*"
 openpyxl = "*"
+pyinstaller = "*"
+pillow = "*"
 
 [dev-packages]
 
