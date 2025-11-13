@@ -159,151 +159,107 @@ function displayResults(data) {
       differentColumns += sheet.different_columns || 0;
     });
 
+    const cardHeader = `
+      <div class="card-header bg-primary text-white border-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-between">
+            <h5 class="mb-0">
+                <i class="fas fa-file-contract me-2"></i>
+                ${pair.pair}
+            </h5>
+            <small class="ms-2 badge bg-info">${results.comparison_time || "Unknown time"}</small>
+          </div>
+          <div class="d-flex align-items-center">
+
+            <!-- Download Button -->
+            <a href="/download/reports/${pair.report_file}" class="btn btn-sm me-2">
+                <i class="fa-solid fa-file-pdf me-2"></i>
+            </a>
+            ${pair.has_pdf ? `
+              <a href="/download/reports/${pair.json_report_file}" class="btn btn-sm">
+                  <i class="fas fa-code me-2"></i>
+              </a>` : ''
+            }
+          </div>
+        </div>
+      </div>    
+    `;
+
+    const stats = [
+      { label: "Total Sheets", value: totalSheets, icon:"fa-layer-group", color:"" },
+      { label: "Total Columns", value: totalColumns, icon:"fa-columns", color:"warning" },
+      { label: "Matching Columns", value: matchingColumns, icon:"fa-check-circle", color: "success" },
+      { label: "Different Columns", value: differentColumns, icon:"fa-times-circle", color: "danger" },
+    ]
+    const summaryStats = `
+      <div class="row mb-4">
+        ${stats.map((stat) => `
+          <div class="col-md-3">
+              <div class="stat-card ${stat.color} text-center">
+                  <i class="fas ${stat.icon} fa-2x mb-2"></i>
+                  <h4>${stat.value}</h4>
+                  <small>${stat.label}</small>
+              </div>
+          </div>  
+        `).join("")}
+    </div>`;
+
+    const getSheetSummary = (sheet) => `
+      <div class="sheet-summary p-3 border border-secondary rounded" onclick="toggleSheetDetails(${pairIndex}, '${sheet.sheet_name}')">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 text-light">
+            <i class="fas fa-table me-2"></i> ${sheet.sheet_name}
+            <span class="badge bg-secondary ms-2">${sheet.total_columns} columns</span>
+          </h6>
+          <div>
+              <span class="badge bg-success">${sheet.matching_columns || 0} matching</span>
+              <span class="badge bg-danger">${sheet.different_columns || 0} different</span>
+              <i class="fas fa-chevron-down ms-2"></i>
+          </div>
+        </div>
+    </div>`;
+
+    const getSheetDetails = (sheet) => `
+    <div id="sheet-${pairIndex}-${sheet.sheet_name}" class="sheet-details mt-3" style="display: none;">
+      ${sheet.columns?.map((column) => `
+        <div class="column-comparison p-3 mb-2 rounded ${
+          column.status === "different"? "column-diff": "column-match"}">
+          <div class="d-flex justify-content-between align-items-start">
+              <div>
+                  <strong class="text-light">${column.name}</strong>
+                  <span class="badge ${column.type === "numeric" ? "bg-info": "bg-warning"} ms-2">${column.type}</span>
+                  <span class="badge ${column.status === "different" ? "bg-danger" : "bg-success"} ms-1">${column.status}</span>
+              </div>
+              <small class="text-light mt-1">Click to expand</small>
+          </div>
+          <div class="column-details mt-2" style="display: none;">
+              ${renderColumnDetails(
+                column
+              )}
+          </div>
+        </div>
+    `).join("") ||'<p class="text-light mt-1">No columns to display</p>'
+    }
+  </div>
+`;
+
     resultsHTML += `
       <div class="card results-card glass-card mb-4">
-          <div class="card-header bg-primary text-white border-0">
-              <div class="d-flex justify-content-between align-items-center">
-                  <h5 class="mb-0">
-                      <i class="fas fa-file-contract me-2"></i>
-                      ${pair.pair}
-                  </h5>
-                  <small>Compared on ${
-                    results.comparison_time || "Unknown time"
-                  }</small>
-              </div>
-          </div>
-          <div class="card-body">
-              <!-- Summary Statistics -->
-              <div class="row mb-4">
-                  <div class="col-md-3">
-                      <div class="stat-card text-center">
-                          <i class="fas fa-layer-group fa-2x mb-2"></i>
-                          <h4>${totalSheets}</h4>
-                          <small>Total Sheets</small>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="stat-card warning text-center">
-                          <i class="fas fa-columns fa-2x mb-2"></i>
-                          <h4>${totalColumns}</h4>
-                          <small>Total Columns</small>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="stat-card success text-center">
-                          <i class="fas fa-check-circle fa-2x mb-2"></i>
-                          <h4>${matchingColumns}</h4>
-                          <small>Matching</small>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="stat-card danger text-center">
-                          <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
-                          <h4>${differentColumns}</h4>
-                          <small>Different</small>
-                      </div>
-                  </div>
-              </div>
+        ${cardHeader}
+        <div class="card-body">
+          <!-- Summary Statistics -->
+          ${summaryStats}
 
-              <!-- Sheets Comparison -->
-              <div class="sheets-comparison">
-                  ${
-                    results.sheets
-                      ?.map(
-                        (sheet) => `
-                      <div class="sheet-section mb-4">
-                          <div class="sheet-summary p-3 border border-secondary rounded" onclick="toggleSheetDetails(${pairIndex}, '${
-                          sheet.sheet_name
-                        }')">
-                              <div class="d-flex justify-content-between align-items-center">
-                                  <h6 class="mb-0 text-light">
-                                      <i class="fas fa-table me-2"></i>
-                                      ${sheet.sheet_name}
-                                      <span class="badge bg-secondary ms-2">${
-                                        sheet.total_columns
-                                      } columns</span>
-                                  </h6>
-                                  <div>
-                                      <span class="badge bg-success">${
-                                        sheet.matching_columns ||
-                                        0
-                                      } matching</span>
-                                      <span class="badge bg-danger">${
-                                        sheet.different_columns ||
-                                        0
-                                      } different</span>
-                                      <i class="fas fa-chevron-down ms-2"></i>
-                                  </div>
-                              </div>
-                          </div>
-                          <div id="sheet-${pairIndex}-${
-                          sheet.sheet_name
-                        }" class="sheet-details mt-3" style="display: none;">
-                              ${
-                                sheet.columns
-                                  ?.map(
-                                    (column) => `
-                                  <div class="column-comparison p-3 mb-2 rounded ${
-                                    column.status === "different"
-                                      ? "column-diff"
-                                      : "column-match"
-                                  }">
-                                      <div class="d-flex justify-content-between align-items-start">
-                                          <div>
-                                              <strong class="text-light">${
-                                                column.name
-                                              }</strong>
-                                              <span class="badge ${
-                                                column.type ===
-                                                "numeric"
-                                                  ? "bg-info"
-                                                  : "bg-warning"
-                                              } ms-2">
-                                                  ${column.type}
-                                              </span>
-                                              <span class="badge ${
-                                                column.status ===
-                                                "different"
-                                                  ? "bg-danger"
-                                                  : "bg-success"
-                                              } ms-1">
-                                                  ${column.status}
-                                              </span>
-                                          </div>
-                                          <small class="text-light mt-1">Click to expand</small>
-                                      </div>
-                                      <div class="column-details mt-2" style="display: none;">
-                                          ${renderColumnDetails(
-                                            column
-                                          )}
-                                      </div>
-                                  </div>
-                              `
-                                  )
-                                  .join("") ||
-                                '<p class="text-light mt-1">No columns to display</p>'
-                              }
-                          </div>
-                      </div>
-                  `
-                      )
-                      .join("") ||
-                    '<p class="text-light mt-1">No sheets to display</p>'
-                  }
-              </div>
-
-              <!-- Download Button -->
-                <div class="text-center mt-4">
-                  <a href="/download/reports/${pair.report_file}" class="btn btn-primary btn-lg me-2">
-                      <i class="fas fa-download me-2"></i>Download PDF Report
-                  </a>
-                  ${pair.has_pdf ? `
-                  <a href="/download/reports/${pair.json_report_file}" class="btn btn-outline-primary btn-lg">
-                      <i class="fas fa-code me-2"></i>Download JSON Data
-                  </a>
-                  ` : ''}
-                </div>
+          <!-- Sheets Comparison -->
+          <div class="sheets-comparison">
+              ${results.sheets?.map((sheet) => `
+                <div class="sheet-section mb-4">
+                  ${getSheetSummary(sheet)}
+                  ${getSheetDetails(sheet)}
+                </div>`).join("") ||'<p class="text-light mt-1">No sheets to display</p>'
+              }
           </div>
+        </div>
       </div>
   `;
   });
@@ -412,23 +368,6 @@ function toggleSheetDetails(pairIndex, sheetName) {
   const details = document.getElementById(`sheet-${pairIndex}-${sheetName}`);
   details.style.display = details.style.display === "none" ? "block" : "none";
 }
-
-// function toggleDescription() {
-//   const desc = document.getElementById("toolDesc");
-//   const button = document
-//     .querySelector("#toolDesc")
-//     .parentElement.querySelector("button");
-
-//   if (desc.textContent.length < 100) {
-//     desc.textContent =
-//       "Upload your 'Actual' and 'Expected' Excel files. The tool automatically compares all common sheets, analyzes both text and numeric columns, and highlights differences with detailed statistical insights. Get comprehensive visual reports and export results for further analysis.";
-//     button.innerHTML = '<i class="fas fa-chevron-up"></i>';
-//   } else {
-//     desc.textContent =
-//       "Upload your 'Actual' and 'Expected' Excel files. The tool automatically compares all common sheets, analyzes both text and numeric columns, and highlights differences with detailed statistical insights.";
-//     button.innerHTML = '<i class="fas fa-chevron-down"></i>';
-//   }
-// }
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
