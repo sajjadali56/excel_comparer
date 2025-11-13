@@ -22,10 +22,10 @@ body {
 }
 
 /* Dashboard Layout */
-.dashboard-container {
+/* .dashboard-container {
   display: flex;
   min-height: 100vh;
-}
+} */
 
 /* Sidebar */
 .sidebar {
@@ -41,7 +41,7 @@ body {
 }
 
 .main-content {
-  flex: 1;
+  /* flex: 1; */
   margin-left: 35%;
   padding: 2rem;
 }

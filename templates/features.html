@@ -1,35 +1,66 @@
-<div class="row mt-5">
-  <div class="col-md-4 mb-3">
-    <div class="card glass-card p-3 text-center h-100">
-      <div class="text-primary mb-3">
-        <i class="fas fa-rocket fa-2x"></i>
+<div id="features" class="row mt-5" ></div>
+
+<script>
+  const features = [
+    {
+      icon: "fas fa-rocket fa-2x",
+      title: "Lightning Fast",
+      description:
+        "Optimized algorithms for quick comparison of large Excel files",
+      color: "primary",
+    },
+    {
+      icon: "fas fa-chart-bar fa-2x",
+      title: "Detailed Analytics",
+      description: "Comprehensive statistical analysis and visualizations",
+      color: "success",
+    },
+    {
+      icon: "fas fa-download fa-2x",
+      title: "Export Reports",
+      description:
+        "Download detailed comparison reports in PDF and JSON formats",
+      color: "warning",
+    },
+    {
+      icon: "fas fa-lock fa-2x mb-2",
+      title: "Secure",
+      description: "Local Processing",
+      color: "success",
+    },
+    {
+      icon: "fas fa-chart-line fa-2x mb-2",
+      title: "Accurate",
+      description: "Detailed Analytics",
+      color: "warning",
+    },
+    {
+      icon: "fas fa-file-excel fa-2x mb-2",
+      title: "Multi-sheet Support",
+      description: "Compare multiple sheets within an Excel file",
+      color: "primary",
+    },
+  ];
+
+  const featuresContainer = document.getElementById("features");
+  const getFeatureCard = (feature) => {
+    
+    const statsBg = "";
+    const iconColor = feature.color;
+    const textColor = "";
+
+    return `<div class="col-md-4 mb-3">
+      <div class="card glass-card p-3 text-center h-100 ${statsBg}">
+        <div class="text-${iconColor} mb-3">
+          <i class="${feature.icon}"></i>
+        </div>
+        <h5 class="${textColor}">${feature.title}</h5>
+        <p class="text-light mt-1 small">${feature.description}</p>
       </div>
-      <h5>Lightning Fast</h5>
-      <p class="text-light mt-1 small">
-        Optimized algorithms for quick comparison of large Excel files
-      </p>
     </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="card glass-card p-3 text-center h-100">
-      <div class="text-success mb-3">
-        <i class="fas fa-chart-bar fa-2x"></i>
-      </div>
-      <h5>Detailed Analytics</h5>
-      <p class="text-light mt-1 small">
-        Comprehensive statistical analysis and visualizations
-      </p>
-    </div>
-  </div>
-  <div class="col-md-4 mb-3">
-    <div class="card glass-card p-3 text-center h-100">
-      <div class="text-warning mb-3">
-        <i class="fas fa-download fa-2x"></i>
-      </div>
-      <h5>Export Reports</h5>
-      <p class="text-light mt-1 small">
-        Download detailed comparison reports in PDF and JSON formats
-      </p>
-    </div>
-  </div>
-</div>
+    `;
+  }
+  features.forEach(
+    (feature) => (featuresContainer.innerHTML += getFeatureCard(feature))
+  );
+</script>

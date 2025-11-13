@@ -111,7 +111,7 @@ def run_browser(message):
 
 if __name__ == "__main__":
 
-    PRODUCTION = True
+    PRODUCTION = False
     message = "Welcome to the tool. Please access the tool using the link: http://127.0.0.1:5000/"
 
     if PRODUCTION:
