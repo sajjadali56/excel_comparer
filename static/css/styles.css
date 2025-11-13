@@ -30,7 +30,7 @@ body {
 /* Sidebar */
 .sidebar {
   /* width: 320px; */
-  width: 30%;
+  width: 25%;
   background: var(--bg-darker);
   border-right: 1px solid var(--border-color);
   padding: 2rem 1.5rem;
@@ -42,15 +42,15 @@ body {
 
 .main-content {
   /* flex: 1; */
-  margin-left: 35%;
+  margin-left: 25%;
   padding: 2rem;
 }
 
 /* Logo & Brand */
 .logo {
   text-align: center;
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -167,11 +167,12 @@ body {
 /* Form Controls */
 .form-control,
 .form-select {
+  font-size: smaller;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   border-radius: 8px;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.5;
 }
 
 .form-control:focus,
@@ -183,6 +184,7 @@ body {
 }
 
 .form-label {
+  font-size: smaller;
   color: var(--text-secondary);
   font-weight: 600;
   margin-bottom: 0.5rem;
