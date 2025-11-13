@@ -3,6 +3,8 @@ import json
 from flask import Flask, render_template, request, send_from_directory, jsonify
 import os
 
+from waitress import serve
+
 from app.formatter import format_comparison_results
 from app.services.compare_logic import *
 from app.services.pdf import generate_pdf_report
@@ -101,5 +103,18 @@ def download_file(folder, filename):
     
     return send_from_directory(directory, filename, as_attachment=True, mimetype=mimetype)
 
+def run_browser(message):
+    print(message)
+    # app.run(debug=True, use_reloader=True)  # Run with debug mode
+    serve(app, host='127.0.0.1', port=5000) # Run with production mode 
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    PRODUCTION = True
+    message = "Welcome to the tool. Please access the tool using the link: http://127.0.0.1:5000/"
+
+    if PRODUCTION:
+        run_browser(message)
+    else:
+        app.run(debug=True)

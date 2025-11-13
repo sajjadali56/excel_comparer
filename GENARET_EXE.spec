@@ -8,7 +8,6 @@ datas = [
     ("app", "app"),
     ('templates', 'templates'),
     ('static', 'static'),
-    ("compare_logic.py", ".")
 ]
 
 hiddenimports = []
@@ -50,5 +49,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='static/images/desktop-app-logo.png'
+    icon='static/images/logo.jpg'
 )
