@@ -1,14 +1,13 @@
 
-import json
-from flask import Flask, render_template, request, send_from_directory, jsonify
-import os
+import json, os, sys
 
-from waitress import serve
+from flask import Flask, render_template, request, send_from_directory, jsonify
 
 from app.formatter import format_comparison_results
 from app.services.compare_logic import *
 from app.services.pdf import generate_pdf_report
 
+from app.runners import *
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -103,18 +102,11 @@ def download_file(folder, filename):
     
     return send_from_directory(directory, filename, as_attachment=True, mimetype=mimetype)
 
-def run_browser(message):
-    print(message)
-    # app.run(debug=True, use_reloader=True)  # Run with debug mode
-    serve(app, host='127.0.0.1', port=5000) # Run with production mode 
-
-
 if __name__ == "__main__":
 
-    PRODUCTION = False
-    message = "Welcome to the tool. Please access the tool using the link: http://127.0.0.1:5000/"
+    args = sys.argv[1:]
 
-    if PRODUCTION:
-        run_browser(message)
+    if "--dev" in args:
+        run_dev(app)
     else:
-        app.run(debug=True)
+        run_gui(app)
