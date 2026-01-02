@@ -20,18 +20,18 @@ def run_gui(app):
     webview.settings["ALLOW_DOWNLOADS"] = True
 
     # Start the Flask server in a separate thread
-    t = threading.Thread(target=lambda : run_flask(app))
-    t.daemon = True
-    t.start()
+    # t = threading.Thread(target=lambda : run_flask(app))
+    # t.daemon = True
+    # t.start()
 
-    # Wait a moment for the server to start
-    time.sleep(1) 
+    # # Wait a moment for the server to start
+    # time.sleep(1) 
 
 
     try:
         # Create the pywebview window, pointing to the specific port
         url = f"http://127.0.0.1:{PORT}"
-        webview.create_window(title, url, maximized=True)
+        webview.create_window(title, app, maximized=True)
         # Start pywebview's main loop
         webview.start()
 
