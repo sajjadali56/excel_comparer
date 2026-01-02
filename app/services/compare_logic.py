@@ -135,6 +135,8 @@ def efficient_column_comparison(col1, col2, col_name, force_object_cols):
             # Optimized numeric comparison
             try:
                 # Convert to numeric in one go
+                col1 = col1.replace([np.inf, -np.inf], np.nan).fillna(0)
+                col2 = col2.replace([np.inf, -np.inf], np.nan).fillna(0)
                 col1_numeric = pd.to_numeric(col1, errors='coerce')
                 col2_numeric = pd.to_numeric(col2, errors='coerce')
                 

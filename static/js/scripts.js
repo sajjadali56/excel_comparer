@@ -212,8 +212,8 @@ function displayResults(data) {
             <span class="badge bg-secondary ms-2">${sheet.total_columns} columns</span>
           </h6>
           <div>
-              <span class="badge bg-success">${sheet.matching_columns || 0} matching</span>
-              <span class="badge bg-danger">${sheet.different_columns || 0} different</span>
+              ${sheet.matching_columns ? `<span class="badge bg-success">${sheet.matching_columns} matching</span>` : ''}
+              ${sheet.different_columns ? `<span class="badge bg-danger">${sheet.different_columns} different</span>` : ''}
               <i class="fas fa-chevron-down ms-2"></i>
           </div>
         </div>

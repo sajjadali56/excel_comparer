@@ -15,7 +15,7 @@ def run_flask(app):
 
 def run_gui(app):
 
-    title = "ACE_Cashflow_V3"
+    title = "Excel Comparison Dashboard"
 
     webview.settings["ALLOW_DOWNLOADS"] = True
 
