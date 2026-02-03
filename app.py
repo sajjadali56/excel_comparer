@@ -108,5 +108,7 @@ if __name__ == "__main__":
 
     if "--dev" in args:
         run_dev(app)
+    elif "--prod" in args:
+        run_browser(app)
     else:
         run_gui(app)

@@ -1,11 +1,11 @@
 <div class="sidebar">
   <div class="logo">
     <div class="logo-img">
-        <img
-          class="img-fluid w-100 h-100 glass-card"
-          src="{{ url_for('static', filename='images/logo.jpg') }}"
-          alt="Excel Comparison Banner"
-        />
+      <img
+        class="img-fluid w-100 h-100"
+        src="{{ url_for('static', filename='images/logo.svg') }}"
+        alt="Excel Comparison Banner"
+      />
     </div>
     <div class="brand-text">ExcelCompare Pro</div>
     <!-- <small class="text-light mt-1">Enterprise Data Comparison</small> -->
@@ -16,5 +16,4 @@
   {% include 'file-manager.html' %}
 
   <!-- {% include 'components/quick-stats.html' %} -->
-
 </div>

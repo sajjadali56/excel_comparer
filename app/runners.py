@@ -1,5 +1,5 @@
 import webview
-
+import webbrowser
 import threading, time
 
 from waitress import serve
@@ -41,8 +41,9 @@ def run_gui(app):
 
 
 def run_browser(app):
+    webbrowser.open(f"http://127.0.0.1:5000")
     serve(app, host="127.0.0.1", port=5000)  # Run with production mode
 
-
 def run_dev(app):
+    webbrowser.open(f"http://127.0.0.1:5000")
     app.run(debug=True, use_reloader=True)
